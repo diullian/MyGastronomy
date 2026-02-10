@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 
 const collectionName = "users";
+const authRouter = express.Router();
 
 passport.use(
   new LocalStrategy(
@@ -20,7 +21,9 @@ passport.use(
         return callback(null, false);
       }
 
-      const saltBuffer = user.salt.saltBuffer;
+      //pega o salt salvo no registro do usuário
+      const saltBuffer = user.salt.buffer;
+
       crypto.pbkdf2(
         password,
         saltBuffer,
@@ -33,7 +36,7 @@ passport.use(
             return callback(null, false);
           }
           //caso não de erro, continua
-          const userPasswsordBuffer = Buffer.from(user.password.Buffer);
+          const userPasswsordBuffer = Buffer.from(user.password.buffer);
 
           if (!crypto.timingSafeEqual(userPasswsordBuffer, hashedPassword)) {
             //se não for igual as senhas, callback erro
@@ -48,8 +51,6 @@ passport.use(
     },
   ),
 );
-
-const authRouter = express.Router();
 
 authRouter.post("/signup", async (req, res) => {
   const checkUser = await Mongo.db
@@ -89,6 +90,7 @@ authRouter.post("/signup", async (req, res) => {
       const result = await Mongo.db.collection(collectionName).insertOne({
         email: req.body.email,
         password: hashedPassword,
+        salt,
       });
 
       if (result.insertedId) {
@@ -113,6 +115,46 @@ authRouter.post("/signup", async (req, res) => {
     },
   );
   //fim criptografia novo usuário
+});
+
+authRouter.post("/login", (req, res) => {
+  passport.authenticate("local", (error, user) => {
+    if (error) {
+      //caso ocorra erro na autenticação
+      return res.status(500).send({
+        success: false,
+        statusCode: 500,
+        body: {
+          text: "Error during authentication!",
+          error,
+        },
+      });
+    }
+
+    //caso não exista o usuário (login não encontrado)
+    if (!user) {
+      return res.status(400).send({
+        success: false,
+        statusCode: 400,
+        body: {
+          text: "User not found!",
+        },
+      });
+    }
+
+    const token = jwt.sign(user, "secret");
+
+    //Usuário registrado com sucesso
+    return res.status(200).send({
+      success: true,
+      statusCode: 200,
+      body: {
+        text: "User logged correctly",
+        user,
+        token,
+      },
+    });
+  })(req, res);
 });
 
 export default authRouter;
