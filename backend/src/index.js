@@ -4,6 +4,7 @@ import { Mongo } from "./database/mongo.js";
 import { config } from "dotenv";
 import authRouter from "./auth/auth.js";
 import usersRouter from "./routes/users.js";
+import platesRouter from "./routes/plates.js";
 
 config();
 
@@ -21,7 +22,10 @@ async function main() {
 
   app.use(express.json());
   app.use(cors());
+
+  app.use("/auth", authRouter);
   app.use("/users", usersRouter);
+  app.use("/plates", platesRouter);
 
   app.get("/", (req, res) => {
     res.send({
@@ -30,8 +34,6 @@ async function main() {
       body: "Welcome To My Gastronomy",
     });
   });
-
-  app.use("/auth", authRouter);
 
   app.listen(port, () => {
     console.log(`Server running on http://${hostname}/${port}`);
