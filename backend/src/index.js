@@ -5,6 +5,7 @@ import { config } from "dotenv";
 import authRouter from "./auth/auth.js";
 import usersRouter from "./routes/users.js";
 import platesRouter from "./routes/plates.js";
+import ordersRouter from "./routes/orders.js";
 
 config();
 
@@ -26,12 +27,13 @@ async function main() {
   app.use("/auth", authRouter);
   app.use("/users", usersRouter);
   app.use("/plates", platesRouter);
+  app.use("/orders", ordersRouter);
 
   app.get("/", (req, res) => {
     res.send({
       success: true,
       statusCode: 200,
-      body: "Welcome To My Gastronomy",
+      body: "Welcome To My Gastronomy!! with",
     });
   });
 
