@@ -53,6 +53,8 @@ passport.use(
 );
 
 authRouter.post("/signup", async (req, res) => {
+  console.log(">> BACK-END ");
+  console.log(req.body.email);
   const checkUser = await Mongo.db
     .collection(collectionName)
     .findOne({ email: req.body.email });

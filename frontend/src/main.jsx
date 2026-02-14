@@ -8,11 +8,11 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import Home from "./pages/home/pages.jsx";
-import Cart from "./pages/cart/pages.jsx";
-import Plates from "./pages/plates/pages.jsx";
-import Profile from "./pages/profile/pages.jsx";
-import Auth from "./pages/auth/pages.jsx";
+import Home from "./pages/home/page.jsx";
+import Cart from "./pages/cart/page.jsx";
+import Plates from "./pages/plates/page.jsx";
+import Profile from "./pages/profile/page.jsx";
+import Auth from "./pages/auth/page.jsx";
 
 const pages = createBrowserRouter([
   {
