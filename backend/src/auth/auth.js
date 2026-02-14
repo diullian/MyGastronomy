@@ -90,6 +90,7 @@ authRouter.post("/signup", async (req, res) => {
 
       //insere no mongodb o usuário com email e senha criptografada
       const result = await Mongo.db.collection(collectionName).insertOne({
+        fullname: req.body.fullname,
         email: req.body.email,
         password: hashedPassword,
         salt,

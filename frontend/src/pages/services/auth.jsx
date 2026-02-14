@@ -1,7 +1,8 @@
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 export default function authServices() {
   const [authLoading, setAuthLoading] = useState(false);
+  const navigate = useNavigate();
 
   const url = "http://localhost:3000/auth";
   const login = (formData) => {
@@ -27,6 +28,8 @@ export default function authServices() {
               user: result.body.user,
             }),
           );
+
+          navigate("/profile", { replace: true });
         }
       })
       .catch((error) => {

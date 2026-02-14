@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import {
   BrowserRouter,
   createBrowserRouter,
+  redirect,
   RouterProvider,
 } from "react-router-dom";
 
@@ -13,6 +14,8 @@ import Cart from "./pages/cart/page.jsx";
 import Plates from "./pages/plates/page.jsx";
 import Profile from "./pages/profile/page.jsx";
 import Auth from "./pages/auth/page.jsx";
+
+import { requireAuth, requireGuest } from "./helpers/helpers.jsx";
 
 const pages = createBrowserRouter([
   {
@@ -30,6 +33,7 @@ const pages = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
+        loader: requireAuth, // Adiciona o loader para verificar a autenticação
       },
       {
         path: "/plates",
@@ -38,6 +42,7 @@ const pages = createBrowserRouter([
       {
         path: "/auth",
         element: <Auth />,
+        loader: requireGuest, // Adiciona o loader para verificar se o usuário NÃO está autenticado
       },
     ],
   },

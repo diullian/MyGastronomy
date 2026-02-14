@@ -8,6 +8,11 @@ export default function Auth() {
   const [formData, setFormData] = useState(null);
   const { login, signup, authLoading } = authServices();
 
+  const existUser = JSON.parse(localStorage.getItem("auth"))?.user;
+  if (!existUser) {
+    // setFormType("login");
+  }
+
   const handleChangeFormType = () => {
     setFormData(null);
     if (formType === "login") {
@@ -85,42 +90,44 @@ export default function Auth() {
   if (formType === "signup") {
     return (
       <>
-        <h1>Sign up</h1>
-        <button onClick={handleChangeFormType}>
-          Alread have an account? Click here
-        </button>
+        <div className={styles.authPageContainer}>
+          <h1>Sign up</h1>
+          <button onClick={handleChangeFormType}>
+            Alread have an account? Click here
+          </button>
 
-        <form onSubmit={handleSubmitForm}>
-          <TextField
-            required
-            label="Fullname"
-            type="fullname"
-            name="fullname"
-            onChange={handleFormDataChange}
-          ></TextField>
-          <TextField
-            required
-            label="E-mail"
-            type="email"
-            name="email"
-            onChange={handleFormDataChange}
-          ></TextField>
-          <TextField
-            required
-            label="Password"
-            type="password"
-            name="password"
-            onChange={handleFormDataChange}
-          ></TextField>
-          <TextField
-            required
-            label="Confirm Password"
-            type="password"
-            name="confirmPassword"
-            onChange={handleFormDataChange}
-          ></TextField>
-          <Button type="submit">Signup</Button>
-        </form>
+          <form onSubmit={handleSubmitForm}>
+            <TextField
+              required
+              label="Fullname"
+              type="fullname"
+              name="fullname"
+              onChange={handleFormDataChange}
+            ></TextField>
+            <TextField
+              required
+              label="E-mail"
+              type="email"
+              name="email"
+              onChange={handleFormDataChange}
+            ></TextField>
+            <TextField
+              required
+              label="Password"
+              type="password"
+              name="password"
+              onChange={handleFormDataChange}
+            ></TextField>
+            <TextField
+              required
+              label="Confirm Password"
+              type="password"
+              name="confirmPassword"
+              onChange={handleFormDataChange}
+            ></TextField>
+            <Button type="submit">Signup</Button>
+          </form>
+        </div>
       </>
     );
   }
