@@ -2,6 +2,7 @@ import styles from "./navbar.module.css";
 import { LuMenu, LuShoppingCart, LuUser } from "react-icons/lu";
 import { Drawer } from "@mui/material";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function NavBar() {
   const [openMenu, setOpenMenu] = useState(false);
@@ -12,24 +13,35 @@ export default function NavBar() {
   return (
     <nav className={styles.navbarContainer}>
       <div className={styles.navbarItems}>
-        <img src="/logo.png" className={styles.logo} />
-        <div className={styles.navbarLinksContainer}>
-          <a href="" className={styles.navbarLink}>
-            Home
-          </a>
-          <a href="" className={styles.navbarLink}>
-            Plates
-          </a>
+        <Link to={"/"}>
+          <img src="/logo.png" className={styles.logo} />
+        </Link>
 
-          <LuShoppingCart className={styles.navbarLink}></LuShoppingCart>
-          <LuUser className={styles.navbarLink}></LuUser>
+        <div className={styles.navbarLinksContainer}>
+          <Link to={"/"} className={styles.navbarLink}>
+            Home
+          </Link>
+          <Link to={"/plates"} className={styles.navbarLink}>
+            Plates
+          </Link>
+
+          <Link to={"/cart"}>
+            <LuShoppingCart className={styles.navbarLink}></LuShoppingCart>
+          </Link>
+          <Link to={"/profile"}>
+            <LuUser className={styles.navbarLink}></LuUser>
+          </Link>
         </div>
       </div>
 
       <div className={styles.mobileNavbarItems}>
-        <img className={styles.logo} src="/logo.png" alt="" />
+        <Link to={"/"}>
+          <img className={styles.logo} src="/logo.png" alt="" />
+        </Link>
         <div className={styles.mobileNavbarBtns}>
-          <LuShoppingCart className={styles.navbarLink}></LuShoppingCart>
+          <Link to={"/cart"}>
+            <LuShoppingCart className={styles.navbarLink}></LuShoppingCart>
+          </Link>
           <LuMenu
             className={styles.navbarLink}
             onClick={handleOpenMenu}
@@ -38,15 +50,21 @@ export default function NavBar() {
       </div>
       <Drawer anchor="right" open={openMenu} onClose={handleOpenMenu}>
         <div className={styles.drawer}>
-          <a href="" className={styles.navbarLink}>
-            Home
-          </a>
-          <a href="" className={styles.navbarLink}>
-            Plates
-          </a>
-          <a href="" className={styles.navbarLink}>
-            Profile
-          </a>
+          <Link to={"/"}>
+            <a href="" className={styles.navbarLink}>
+              Home
+            </a>
+          </Link>
+          <Link to={"/plates"}>
+            <a href="" className={styles.navbarLink}>
+              Plates
+            </a>
+          </Link>
+          <Link to={"/profile"}>
+            <a href="" className={styles.navbarLink}>
+              Profile
+            </a>
+          </Link>
         </div>
       </Drawer>
     </nav>
