@@ -37,17 +37,17 @@ export default function NavBar() {
         </div>
       </div>
       <Drawer anchor="right" open={openMenu} onClose={handleOpenMenu}>
-        <a href="" className={styles.navbarLink}>
-          Home
-        </a>
-
-        <a href="" className={styles.navbarLink}>
-          Plates
-        </a>
-
-        <a href="" className={styles.navbarLink}>
-          Profile
-        </a>
+        <div className={styles.drawer}>
+          <a href="" className={styles.navbarLink}>
+            Home
+          </a>
+          <a href="" className={styles.navbarLink}>
+            Plates
+          </a>
+          <a href="" className={styles.navbarLink}>
+            Profile
+          </a>
+        </div>
       </Drawer>
     </nav>
   );
