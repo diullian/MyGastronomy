@@ -6,7 +6,7 @@ import authServices from "../services/auth";
 export default function Auth() {
   const [formType, setFormType] = useState("login");
   const [formData, setFormData] = useState(null);
-  const { login, signup } = authServices();
+  const { login, signup, authLoading } = authServices();
 
   const handleChangeFormType = () => {
     setFormData(null);
@@ -44,6 +44,14 @@ export default function Auth() {
         break;
     }
   };
+
+  if (authLoading) {
+    return (
+      <div>
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
 
   if (formType === "login") {
     return (

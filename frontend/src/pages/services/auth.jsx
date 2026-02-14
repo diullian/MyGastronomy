@@ -9,7 +9,7 @@ export default function authServices() {
     fetch(`${url}/login`, {
       method: "POST",
       headers: {
-        "Content-type": "appliccation/json",
+        "Content-type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify(formData),
@@ -18,6 +18,16 @@ export default function authServices() {
       .then((result) => {
         console.log("Result");
         console.log(result);
+
+        if (result.success && result.body.token) {
+          localStorage.setItem(
+            "auth",
+            JSON.stringify({
+              token: result.body.token,
+              user: result.body.user,
+            }),
+          );
+        }
       })
       .catch((error) => {
         console.log("Error");
@@ -31,11 +41,16 @@ export default function authServices() {
   const logout = () => {};
 
   const signup = (formData) => {
+    // console.log("VAMOS REGISTRAR");
+    // console.log(formData);
+    // console.log("--");
+    // console.log(JSON.stringify(formData));
+
     setAuthLoading(true);
     fetch(`${url}/signup`, {
       method: "POST",
       headers: {
-        "Content-type": "appliccation/json",
+        "Content-type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify(formData),
@@ -44,6 +59,16 @@ export default function authServices() {
       .then((result) => {
         console.log("Result");
         console.log(result);
+
+        if (result.success && result.body.token) {
+          localStorage.setItem(
+            "auth",
+            JSON.stringify({
+              token: result.body.token,
+              user: result.body.user,
+            }),
+          );
+        }
       })
       .catch((error) => {
         console.log("Error");
