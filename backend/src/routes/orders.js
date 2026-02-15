@@ -10,7 +10,7 @@ ordersRouter.get("/", async (req, res) => {
   res.status(statusCode).send({ success, statusCode, body });
 });
 
-ordersRouter.get("/:id", async (req, res) => {
+ordersRouter.get("/userorders/:id", async (req, res) => {
   console.log("usuário" + req.params.id);
 
   const { success, statusCode, body } =
