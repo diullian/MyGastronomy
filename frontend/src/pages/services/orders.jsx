@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function orderServices() {
   const [orderLoading, setorderLoading] = useState(false);
   const [refetchOrders, setRefetchOrders] = useState(true);
-  const [ordersData, setOrdersData] = useState(null);
+  const [ordersList, setOrdersList] = useState([]);
 
   const url = "http://localhost:3000/orders";
 
@@ -17,7 +17,14 @@ export default function orderServices() {
       },
     })
       .then((response) => response.json())
-      .then((result) => {})
+      .then((result) => {
+        if (result.success) {
+          setOrdersList(result.body);
+        } else {
+          console.log("Result but no success");
+          console.log(result);
+        }
+      })
       .catch((error) => {
         console.log("Error");
         console.log(error);
@@ -28,5 +35,5 @@ export default function orderServices() {
       });
   };
 
-  return { getUserOrders, orderLoading, refetchOrders };
+  return { getUserOrders, orderLoading, refetchOrders, ordersList };
 }
