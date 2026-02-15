@@ -3,6 +3,7 @@ import { LuLogOut } from "react-icons/lu";
 import { useLogout } from "../../helpers/helpers";
 import orderServices from "../services/orders";
 import { useEffect } from "react";
+import styles from "./page.module.css";
 
 export default function Profile() {
   const { getUserOrders, orderLoading, refetchOrders, ordersList } =
@@ -38,7 +39,7 @@ export default function Profile() {
       >
         <LuLogOut></LuLogOut>
       </button>
-      <div>
+      <div className={styles.orderContainer}>
         {ordersList && ordersList?.length > 0 ? (
           <div>
             {ordersList.map((order) => {
