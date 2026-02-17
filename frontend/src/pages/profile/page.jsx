@@ -1,5 +1,5 @@
 import { Router } from "react-router-dom";
-import { LuLogOut } from "react-icons/lu";
+import { LuLogOut, LuTimer, LuCheck, LuCircleAlert } from "react-icons/lu";
 import { useLogout } from "../../helpers/helpers";
 import orderServices from "../services/orders";
 import { useEffect } from "react";
@@ -12,12 +12,8 @@ export default function Profile() {
   const logout = useLogout();
 
   useEffect(() => {
-    console.log("ENTREI" + authData?.user?._id);
-
     if (refetchOrders) {
       const orders = getUserOrders(authData?.user?._id);
-      console.log("ORDENS");
-      console.log(orders);
     }
   }, [authData?.user?._id, refetchOrders]);
 
@@ -29,43 +25,52 @@ export default function Profile() {
   console.log(ordersList);
 
   return (
-    <>
-      <h1>{authData?.user?.fullname}</h1>
-      <h1>{authData?.user?.email}</h1>
-      <button
-        onClick={() => {
-          logout();
-        }}
-      >
-        <LuLogOut></LuLogOut>
-      </button>
-      <div className={styles.orderContainer}>
-        {ordersList && ordersList?.length > 0 ? (
-          <div>
-            {ordersList.map((order) => {
-              return (
-                <div key={order._id}>
-                  <h2>Pedido: {order._id}</h2>
-                  <p>Data: {new Date(order.createdAt).toLocaleDateString()}</p>
-
-                  <h3>Items do pedido</h3>
-                  <ul>
-                    {order.orderItems?.itemDetails.map((details, index) => (
-                      <li key={index}>
-                        <p>Prato: {details.name}</p>
-                        <p>Description: {details.description}</p>
-                        <img src={details.imgUrl} />
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          <h1>Sem pedidos encontrados</h1>
-        )}
+    <div className={styles.pageContainer}>
+      <div>
+        <h1>{authData?.user?.fullname}</h1>
+        <h3>{authData?.user?.email}</h3>
       </div>
-    </>
+
+      <button onClick={() => logout()}>
+        Logout
+        <LuLogOut />
+      </button>
+
+      {ordersList.length > 0 ? (
+        <div className={styles.ordersContainer}>
+          {ordersList.map((order) => (
+            <div key={order._id} className={styles.orderContainer}>
+              {order.pickupStatus === "Pending" ? (
+                <p className={`${styles.pickupStatus} ${styles.pending}`}>
+                  {order.pickupStatus}
+                  <LuTimer />
+                </p>
+              ) : null}
+              {order.pickupStatus === "Completed" ? (
+                <p className={`${styles.pickupStatus} ${styles.completed}`}>
+                  <LuCheck />
+                  {order.pickupStatus}
+                </p>
+              ) : null}
+              {order.pickupStatus === "Canceled" ? (
+                <p className={`${styles.pickupStatus} ${styles.canceled}`}>
+                  <LuCircleAlert />
+                  {order.pickupStatus}
+                </p>
+              ) : null}
+              <h3>{order.pickupTime}</h3>
+              {order.orderItems.map((item) => (
+                <div key={item._id}>
+                  <h4>{item.itemDetails[0].name}</h4>
+                  <p>Quantity: {item.quantity}</p>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div>You do not have orders yet.</div>
+      )}
+    </div>
   );
 }

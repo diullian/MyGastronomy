@@ -93,6 +93,15 @@ export default class OrdersDataAccess {
             as: "orderItems.itemDetails",
           },
         },
+        {
+          $group: {
+            _id: "$_id",
+            userDetails: { $first: "$userDetails" },
+            orderItems: { $push: "$orderItems" },
+            pickupStatus: { $first: "$pickupStatus" },
+            pickupTime: { $first: "$pickupTime" },
+          },
+        },
       ])
       .toArray();
 

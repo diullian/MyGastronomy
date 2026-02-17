@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { TextField, Button } from "@mui/material";
 import styles from "./page.module.css";
 import authServices from "../services/auth";
+import { LuLogIn } from "react-icons/lu";
 
 export default function Auth() {
   const [formType, setFormType] = useState("login");
@@ -33,8 +34,6 @@ export default function Auth() {
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    console.log("->>>> SUBMIT <<<<-");
-    console.log(formData);
 
     switch (formType) {
       case "login":
@@ -81,7 +80,10 @@ export default function Auth() {
             onChange={handleFormDataChange}
           ></TextField>
 
-          <Button type="submit">Login</Button>
+          <button type="submit">
+            Login
+            <LuLogIn />
+          </button>
         </form>
       </div>
     );
@@ -125,7 +127,10 @@ export default function Auth() {
               name="confirmPassword"
               onChange={handleFormDataChange}
             ></TextField>
-            <Button type="submit">Signup</Button>
+            <button type="submit">
+              Signup
+              <LuLogIn />
+            </button>
           </form>
         </div>
       </>
