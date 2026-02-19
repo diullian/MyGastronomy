@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { TextField, Button } from "@mui/material";
 import styles from "./page.module.css";
-import authServices from "../services/auth";
+import authServices from "../../services/auth";
 import { LuLogIn } from "react-icons/lu";
 
 export default function Auth() {
