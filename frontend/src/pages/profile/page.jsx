@@ -1,9 +1,10 @@
-import { Router } from "react-router-dom";
+import { Router, Link } from "react-router-dom";
 import { LuLogOut, LuTimer, LuCheck, LuCircleAlert } from "react-icons/lu";
 import { useLogout } from "../../helpers/helpers";
-import orderServices from "../services/orders";
+import orderServices from "../../services/orders";
 import { useEffect } from "react";
 import styles from "./page.module.css";
+import Loading from "../loading/page.jsx";
 
 export default function Profile() {
   const { getUserOrders, orderLoading, refetchOrders, ordersList } =
@@ -12,13 +13,15 @@ export default function Profile() {
   const logout = useLogout();
 
   useEffect(() => {
-    if (refetchOrders) {
-      const orders = getUserOrders(authData?.user?._id);
+    if (!authData) {
+      return Navigate("/auth");
+    } else if (refetchOrders) {
+      getUserOrders(authData?.user?._id);
     }
   }, [authData?.user?._id, refetchOrders]);
 
   if (orderLoading) {
-    return <h1>Loading...</h1>;
+    return <Loading></Loading>;
   }
 
   console.log("ORDER LIST ->>");
@@ -61,7 +64,7 @@ export default function Profile() {
               <h3>{order.pickupTime}</h3>
               {order.orderItems.map((item) => (
                 <div key={item._id}>
-                  <h4>{item.itemDetails[0].name}</h4>
+                  <h4>{item.itemDetails[0]?.name}</h4>
                   <p>Quantity: {item.quantity}</p>
                 </div>
               ))}
@@ -69,7 +72,12 @@ export default function Profile() {
           ))}
         </div>
       ) : (
-        <div>You do not have orders yet.</div>
+        <div>
+          You do not have orders yet.
+          <Link to={"/plates"} className={styles.platesLink}>
+            Click here and see our specialities!
+          </Link>
+        </div>
       )}
     </div>
   );
