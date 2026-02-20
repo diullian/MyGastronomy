@@ -1,3 +1,4 @@
+import PlateCard from "../../components/plateCard/plateCard";
 import platesServices from "../../services/plates";
 import { useEffect } from "react";
 
@@ -17,5 +18,17 @@ export default function Plates() {
 
   console.log("PLATES");
   console.log(platesList);
-  return <h1>Plates</h1>;
+  return (
+    <>
+      <div>
+        {platesList.length > 0 ? (
+          platesList.map((plate) => (
+            <PlateCard key={plate._id} plateData={plate} />
+          ))
+        ) : (
+          <p>No plates available at the moment.</p>
+        )}
+      </div>
+    </>
+  );
 }
